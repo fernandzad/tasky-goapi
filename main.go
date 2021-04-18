@@ -7,6 +7,8 @@ import (
 	"tasky/database/connection"
 	"tasky/model"
 	"tasky/service/task"
+
+	"github.com/spf13/viper"
 )
 
 func createTask(taskService task.TaskService) {
@@ -34,24 +36,26 @@ func createTask(taskService task.TaskService) {
 func main() {
 	fmt.Println("Hello from Tasky!")
 
+	viper.SetConfigFile(".env")
+	viper.ReadInConfig()
+
 	mongodb := connection.New()
 	taskService := task.New(mongodb)
-
-	// createTask(*taskService)
 
 	tasks, _ := taskService.Read()
 	fmt.Println(*tasks)
 
-	taskToUpdate := model.Task{
-		Description: "This is a update of a Task",
-		UserId:      "zy12xw34vu56ts78",
-		FinishAt:    time.Now().AddDate(0, 0, 5),
-		IsDeleted:   false,
-		IsMarked:    false,
-		UpdatedAt:   time.Now(),
-	}
+	// createTask(*taskService)
+	// taskToUpdate := model.Task{
+	// 	Description: "This is a update of a Task",
+	// 	UserId:      "zy12xw34vu56ts78",
+	// 	FinishAt:    time.Now().AddDate(0, 0, 5),
+	// 	IsDeleted:   false,
+	// 	IsMarked:    false,
+	// 	UpdatedAt:   time.Now(),
+	// }
 
-	taskService.Update(taskToUpdate, "607b838fdf39612c80554a6a")
+	// taskService.Update(taskToUpdate, "607b838fdf39612c80554a6a")
 
 	// taskService.Delete("607b814fa091788c80ba27f9")
 }

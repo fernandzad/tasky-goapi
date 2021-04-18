@@ -31,6 +31,7 @@ func (ts *TaskService) Create(task model.Task) *model.Error {
 
 	var collectionName string = "task"
 	var collection, customErr = ts.mongodb.GetCollection(collectionName)
+	defer ts.mongodb.Disconnect()
 	if customErr != nil {
 		return customErr
 	}
@@ -55,6 +56,7 @@ func (ts *TaskService) Read() (*model.Tasks, *model.Error) {
 	var tasks model.Tasks
 	var collectionName string = "task"
 	var collection, customErr = ts.mongodb.GetCollection(collectionName)
+	defer ts.mongodb.Disconnect()
 	if customErr != nil {
 		return nil, customErr
 	}
@@ -88,6 +90,7 @@ func (ts *TaskService) Read() (*model.Tasks, *model.Error) {
 func (ts *TaskService) Update(task model.Task, taskId string) *model.Error {
 	var collectionName string = "task"
 	var collection, customErr = ts.mongodb.GetCollection(collectionName)
+	defer ts.mongodb.Disconnect()
 	if customErr != nil {
 		return customErr
 	}
@@ -122,6 +125,8 @@ func (ts *TaskService) Update(task model.Task, taskId string) *model.Error {
 func (ts *TaskService) Delete(taskId string) *model.Error {
 	var collectionName string = "task"
 	var collection, customErr = ts.mongodb.GetCollection(collectionName)
+	defer ts.mongodb.Disconnect()
+
 	if customErr != nil {
 		return customErr
 	}
